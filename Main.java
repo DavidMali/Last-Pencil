@@ -7,7 +7,6 @@ public class Main {
         ui.printWelcomeMessage();
         if (ui.getUserChoice()) {
             int numberOfPencils = ui.promptForNumberOfPencils();
-            System.out.println(numberOfPencils);
         } else return;
 
 
