@@ -15,12 +15,16 @@ public class UserInterface {
         System.out.println("Type START to start a new game or EXIT to leave this program:");
     }
 
-    public boolean getUserChoice() {
+    public Game startGame() {
         while (true) {
             String userChoice = sc.nextLine();
             checkForExit(userChoice);
             if (userChoice.equalsIgnoreCase("START")) {
-                return true;
+                int numberOfPencils = promptForNumberOfPencils();
+                String player1Name = getPlayerName();
+                String player2Name = getPlayer2Name();
+                boolean player1First = determineFirstPlayer(player1Name, player2Name);
+                return new Game(numberOfPencils, player1Name, player2Name, player1First);
             } else {
                 System.out.println("Type START to start a new game or EXIT to leave this program:");
             }
@@ -71,7 +75,15 @@ public class UserInterface {
 
     public String getPlayerName() {
         System.out.println("What is your name?");
-        return sc.nextLine();
+        while (true) {
+            String playerName = sc.nextLine();
+            if (playerName.equalsIgnoreCase("LAST_PENCIL_BOT")) {
+                System.out.println("Hey, that's my name :P\nChoose another name:");
+                continue;
+            }
+            return playerName;
+        }
+
     }
 
     public String getPlayerName(int playerNumber) {
@@ -89,7 +101,7 @@ public class UserInterface {
             checkForExit(input);
             switch (input.toUpperCase()) {
                 case "BOT":
-                    return null;
+                    return "LAST_PENCIL_BOT";
                 case "PLAYER":
                     return getPlayerName(2);
                 default:
@@ -99,13 +111,21 @@ public class UserInterface {
     }
 
     public boolean determineFirstPlayer(String player1Name, String player2Name) {
-        System.out.println("Who will be the first (" + player1Name.toUpperCase() + ", " + player2Name.toUpperCase() + ")");
-        String userInput = sc.nextLine();
-        if (userInput.equalsIgnoreCase(player1Name)) {
-            return true;
+        System.out.println("Who will be the first:\n1: " + player1Name.toUpperCase() + "\n2: " + player2Name.toUpperCase());
+        while (true) {
+            String userInput = sc.nextLine();
+            switch (userInput.toUpperCase()) {
+                case "1":
+                    return true;
+                case "2":
+                    return false;
+                default:
+                    System.out.println("Type 1 or 2");
+            }
         }
-        return false;
+
     }
+
 
 
 

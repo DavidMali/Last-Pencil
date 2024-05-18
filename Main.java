@@ -5,13 +5,9 @@ public class Main {
     public static void main(String[] args) {
         UserInterface ui = new UserInterface();
         ui.printWelcomeMessage();
-        while (ui.getUserChoice()) {
-            int numberOfPencils = ui.promptForNumberOfPencils();
-            String player1Name = ui.getPlayerName();
-            String player2Name = ui.getPlayer2Name();
-            boolean player1First = ui.determineFirstPlayer(player1Name, player2Name);
-            Game game = new Game(numberOfPencils, player1Name, player2Name, player1First);
-        }
+        Game game = ui.startGame();
+        game.printGame();
+
 
 
 
