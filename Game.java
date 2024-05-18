@@ -6,21 +6,20 @@ public class Game {
     private String player1Name;
     private String player2Name;
     private boolean player1First;
-    private boolean botGame = false;
+    private Random random;
+    private Scanner scanner;
 
     Game(int numberOfPencils, String player1Name, String player2Name, boolean player1First) {
         this.numberOfPencils = numberOfPencils;
         this.player1Name = player1Name;
         this.player2Name = player2Name;
         this.player1First = player1First;
-        if (player2Name.equals("LAST_PENCIL_BOT")) {
-            this.botGame = true;
-        }
+        this.random = new Random();
+        this.scanner = new Scanner(System.in);
     }
 
     public void play() {
         String currentPlayer = player1First ? player1Name : player2Name;
-        Random random = new Random();
 
         while (numberOfPencils > 0) {
             int pencilsTaken = 0;
@@ -47,7 +46,6 @@ public class Game {
     }
 
     public int doBotTurn(int numberOfPencils) {
-        Random random = new Random();
         switch (numberOfPencils % 4) {
             case 1:
                 return random.nextInt(2) + 1;
@@ -62,36 +60,40 @@ public class Game {
     }
 
     public int doPlayerTurn(int numberOfPencils) {
-        Scanner scanner = new Scanner(System.in);
-        String numbers = "0123456789";
         int pencilsTaken = 0;
         while (true) {
-            boolean validInput = true;
             String userInput = scanner.nextLine();
-            char[] userInputCharacters = userInput.toCharArray();
-            for (int i = 0; i < userInputCharacters.length; i++) {
-                if (!numbers.contains(String.valueOf(userInputCharacters[i]))) {
-                    System.out.println("Possible values: '1', '2' or '3'");
-                    validInput = false;
-                    break;
-                }
-            }
-            if (validInput) {
-                pencilsTaken = Integer.valueOf(userInput);
-                if (pencilsTaken != 1 && pencilsTaken != 2 && pencilsTaken != 3) {
-                    System.out.println("Possible values: '1', '2' or '3'");
-                    continue;
-                }
-                if (pencilsTaken > numberOfPencils) {
-                    System.out.println("Too many pencils were taken");
-                    continue;
-                }
+            if (isValidInput(userInput)) {
+                pencilsTaken = Integer.parseInt(userInput);
                 break;
             }
         }
         return pencilsTaken;
     }
+
+    public boolean isValidInput(String input) {
+        String numbers = "0123456789";
+        int pencilsTaken = 0;
+        char[] userInputCharacters = input.toCharArray();
+        for (int i = 0; i < userInputCharacters.length; i++) {
+            if (!numbers.contains(String.valueOf(userInputCharacters[i]))) {
+                System.out.println("Possible values: '1', '2' or '3'");
+                return false;
+            }
+        }
+        pencilsTaken = Integer.parseInt(input);
+        if (pencilsTaken != 1 && pencilsTaken != 2 && pencilsTaken != 3) {
+            System.out.println("Possible values: '1', '2' or '3'");
+            return false;
+        }
+        if (pencilsTaken > numberOfPencils) {
+            System.out.println("Too many pencils were taken");
+            return false;
+        }
+        return true;
+    }
 }
+
 
 
 
