@@ -37,7 +37,7 @@ public class Game {
             numberOfPencils -= pencilsTaken;
             currentPlayer = currentPlayer.equals(player2Name) ? player1Name : player2Name;
         }
-        System.out.println(currentPlayer + " won!");
+        System.out.println(currentPlayer + " won!\n");
     }
 
 

@@ -7,15 +7,10 @@ public class UserInterface {
         this.sc = new Scanner(System.in);
     }
 
-    public void printWelcomeMessage() {
-        System.out.println("\nWelcome to the Game!\n");
-        System.out.println("The rules of the Game are simple: You get to decide how many pencils are used in each round.\n" +
-                "Then, you and the other player/bot take turns taking 1-3 pencils from the pile until there is only 1 left.\n" +
-                "Whoever takes the last pencil loses the round.\n");
-        System.out.println("Type START to start a new game or EXIT to leave this program:");
-    }
+
 
     public Game startGame() {
+        System.out.println("Type START to start a new game or EXIT to leave this program:");
         while (true) {
             String userChoice = sc.nextLine();
             checkForExit(userChoice);
@@ -72,7 +67,6 @@ public class UserInterface {
     }
 
 
-
     public String getPlayerName() {
         System.out.println("What is your name?");
         while (true) {
@@ -90,7 +84,6 @@ public class UserInterface {
         System.out.println("What is the name of Player 2?");
         return sc.nextLine();
     }
-
 
 
     public String getPlayer2Name() {
@@ -126,9 +119,9 @@ public class UserInterface {
 
     }
 
-
-
-
-
-
 }
+
+
+
+
+
