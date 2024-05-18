@@ -39,12 +39,6 @@ public class Game {
         System.out.println(currentPlayer + " won!\n");
     }
 
-
-    public void printGame() {
-        System.out.println("Player 1: " + player1Name);
-        System.out.println("Player 2: " + player2Name);
-    }
-
     public int doBotTurn(int numberOfPencils) {
         switch (numberOfPencils % 4) {
             case 1:
@@ -61,11 +55,10 @@ public class Game {
 
     public int doPlayerTurn(int numberOfPencils) {
         int pencilsTaken = 0;
-        while (true) {
+        while (pencilsTaken == 0) {
             String userInput = scanner.nextLine();
             if (isValidInput(userInput)) {
                 pencilsTaken = Integer.parseInt(userInput);
-                break;
             }
         }
         return pencilsTaken;
