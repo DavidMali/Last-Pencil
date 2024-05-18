@@ -7,7 +7,9 @@ public class Main {
         ui.printWelcomeMessage();
         if (ui.getUserChoice()) {
             int numberOfPencils = ui.promptForNumberOfPencils();
-        } else return;
+            String player1Name = ui.getPlayerName();
+            String player2Name = ui.getPlayer2Name();
+        }
 
 
         /*

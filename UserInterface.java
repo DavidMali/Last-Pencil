@@ -23,7 +23,7 @@ public class UserInterface {
         while (true) {
             String userChoice = sc.nextLine();
             checkForExit(userChoice);
-            if (userChoice.equalsIgnoreCase("start")) {
+            if (userChoice.equalsIgnoreCase("START")) {
                 return true;
             } else {
                 System.out.println("Type START to start a new game or EXIT to leave this program:");
@@ -59,7 +59,7 @@ public class UserInterface {
     }
 
     public void checkForExit(String userInput) {
-        if (userInput.equalsIgnoreCase("Exit")) {
+        if (userInput.equalsIgnoreCase("EXIT")) {
             displayMessage("Exiting the program. Goodbye!");
             try {
                 Thread.sleep(1000);
@@ -68,6 +68,29 @@ public class UserInterface {
             }
             System.exit(0);
 
+        }
+    }
+
+
+
+    public String getPlayerName() {
+        System.out.println("What is your name?");
+        return sc.nextLine();
+    }
+
+    public String getPlayer2Name() {
+        System.out.println("Do you want to play against a bot or another player (locally)?");
+        System.out.println("Type BOT to play against a bot or the PLAYER to play against another player:\n");
+        while (true) {
+            String input = sc.nextLine();
+            switch (input.toUpperCase()) {
+                case "BOT":
+                    return null;
+                case "PLAYER":
+                    return getPlayerName();
+                default:
+                    System.out.println("Type BOT to play against a bot or the PLAYER to play against another player:");
+            }
         }
     }
 
