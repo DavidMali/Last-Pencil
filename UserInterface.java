@@ -7,16 +7,12 @@ public class UserInterface {
         this.sc = new Scanner(System.in);
     }
 
-    public void displayMessage(String message) {
-        System.out.println(message);
-    }
-
     public void printWelcomeMessage() {
-        displayMessage("\nWelcome to the Game!\n");
-        displayMessage("The rules of the Game are simple: You get to decide how many pencils are used in each round.\n" +
+        System.out.println("\nWelcome to the Game!\n");
+        System.out.println("The rules of the Game are simple: You get to decide how many pencils are used in each round.\n" +
                 "Then, you and the other player/bot take turns taking 1-3 pencils from the pile until there is only 1 left.\n" +
                 "Whoever takes the last pencil loses the round.\n");
-        displayMessage("Type START to start a new game or EXIT to leave this program:");
+        System.out.println("Type START to start a new game or EXIT to leave this program:");
     }
 
     public boolean getUserChoice() {
@@ -60,7 +56,7 @@ public class UserInterface {
 
     public void checkForExit(String userInput) {
         if (userInput.equalsIgnoreCase("EXIT")) {
-            displayMessage("Exiting the program. Goodbye!");
+            System.out.println("Exiting the program. Goodbye!");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -87,7 +83,7 @@ public class UserInterface {
 
     public String getPlayer2Name() {
         System.out.println("Do you want to play against a bot or another player (locally)?");
-        System.out.println("Type BOT to play against a bot or the PLAYER to play against another player:\n");
+        System.out.println("Type BOT to play against a bot or the PLAYER to play against another player:");
         while (true) {
             String input = sc.nextLine();
             checkForExit(input);
@@ -100,6 +96,15 @@ public class UserInterface {
                     System.out.println("Type BOT to play against a bot or the PLAYER to play against another player:");
             }
         }
+    }
+
+    public boolean determineFirstPlayer(String player1Name, String player2Name) {
+        System.out.println("Who will be the first (" + player1Name.toUpperCase() + ", " + player2Name.toUpperCase() + ")");
+        String userInput = sc.nextLine();
+        if (userInput.equalsIgnoreCase(player1Name)) {
+            return true;
+        }
+        return false;
     }
 
 
