@@ -78,16 +78,24 @@ public class UserInterface {
         return sc.nextLine();
     }
 
+    public String getPlayerName(int playerNumber) {
+        System.out.println("What is the name of Player 2?");
+        return sc.nextLine();
+    }
+
+
+
     public String getPlayer2Name() {
         System.out.println("Do you want to play against a bot or another player (locally)?");
         System.out.println("Type BOT to play against a bot or the PLAYER to play against another player:\n");
         while (true) {
             String input = sc.nextLine();
+            checkForExit(input);
             switch (input.toUpperCase()) {
                 case "BOT":
                     return null;
                 case "PLAYER":
-                    return getPlayerName();
+                    return getPlayerName(2);
                 default:
                     System.out.println("Type BOT to play against a bot or the PLAYER to play against another player:");
             }
