@@ -1,27 +1,34 @@
 import java.util.Scanner;
 
 public class UserInterface {
-    private Scanner sc;
+    private final Scanner sc;
 
     UserInterface() {
         this.sc = new Scanner(System.in);
     }
 
-
-
     public Game startGame() {
         System.out.println("Type START to start a new game or EXIT to leave this program:");
         while (true) {
-            String userChoice = sc.nextLine();
-            checkForExit(userChoice);
-            if (userChoice.equalsIgnoreCase("START")) {
-                int numberOfPencils = promptForNumberOfPencils();
-                String player1Name = getPlayerName();
-                String player2Name = getPlayer2Name();
-                boolean player1First = determineFirstPlayer(player1Name, player2Name);
-                return new Game(numberOfPencils, player1Name, player2Name, player1First);
-            } else {
-                System.out.println("Type START to start a new game or EXIT to leave this program:");
+            String userInput = sc.nextLine();
+            switch (userInput.toUpperCase()) {
+                case "START":
+                    int numberOfPencils = promptForNumberOfPencils();
+                    String player1Name = promptForPlayerName();
+                    String player2Name = getPlayer2Name();
+                    boolean player1First = determineFirstPlayer(player1Name, player2Name);
+                    return new Game(numberOfPencils, player1Name, player2Name, player1First);
+                case "EXIT":
+                    System.out.println("Exiting the program. Goodbye!");
+                    try {
+                        //noinspection BusyWait
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        System.exit(0);
+                    }
+                    System.exit(0);
+                default:
+                    System.out.println("Type START to start a new game or EXIT to leave this program:");
             }
         }
     }
@@ -30,11 +37,10 @@ public class UserInterface {
         System.out.println("How many pencils would you like to use:");
         while (true) {
             String numberOfPencils = sc.nextLine();
-            checkForExit(numberOfPencils);
             if (validatePositiveIntInput(numberOfPencils)) {
                 return Integer.parseInt(numberOfPencils);
             }
-            System.out.println("The number of pencils should be numeric and positive.");
+            System.out.println("The number of pencils should be numeric and greater than 5");
         }
 
     }
@@ -42,32 +48,16 @@ public class UserInterface {
     public boolean validatePositiveIntInput(String input) {
         String numbers = "0123456789";
         char[] userInputCharacters = input.toCharArray();
-        for (int i = 0; i < userInputCharacters.length; i++) {
-            if (!numbers.contains(String.valueOf(userInputCharacters[i]))) {
+        for (char userInputCharacter : userInputCharacters) {
+            if (!numbers.contains(String.valueOf(userInputCharacter))) {
                 return false;
             }
         }
-        if (Integer.valueOf(input) == 0) {
-            return false;
-        }
-        return true;
-    }
-
-    public void checkForExit(String userInput) {
-        if (userInput.equalsIgnoreCase("EXIT")) {
-            System.out.println("Exiting the program. Goodbye!");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                System.exit(0);
-            }
-            System.exit(0);
-
-        }
+        return Integer.parseInt(input) > 5;
     }
 
 
-    public String getPlayerName() {
+    public String promptForPlayerName() {
         System.out.println("What is your name?");
         while (true) {
             String playerName = sc.nextLine();
@@ -80,7 +70,7 @@ public class UserInterface {
 
     }
 
-    public String getPlayerName(int playerNumber) {
+    public String promptForPlayer2Name() {
         System.out.println("What is the name of Player 2?");
         return sc.nextLine();
     }
@@ -91,12 +81,11 @@ public class UserInterface {
         System.out.println("Type BOT to play against a bot or the PLAYER to play against another player:");
         while (true) {
             String input = sc.nextLine();
-            checkForExit(input);
             switch (input.toUpperCase()) {
                 case "BOT":
                     return "LAST_PENCIL_BOT";
                 case "PLAYER":
-                    return getPlayerName(2);
+                    return promptForPlayer2Name();
                 default:
                     System.out.println("Type BOT to play against a bot or the PLAYER to play against another player:");
             }
@@ -113,7 +102,7 @@ public class UserInterface {
                 case "2":
                     return false;
                 default:
-                    System.out.println("Type 1 or 2");
+                    System.out.println("Type 1 or 2 to determine which player goes first:");
             }
         }
 

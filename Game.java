@@ -3,11 +3,11 @@ import java.util.Scanner;
 
 public class Game {
     private int numberOfPencils;
-    private String player1Name;
-    private String player2Name;
-    private boolean player1First;
-    private Random random;
-    private Scanner scanner;
+    private final String player1Name;
+    private final String player2Name;
+    private final boolean player1First;
+    private final Random random;
+    private final Scanner scanner;
 
     Game(int numberOfPencils, String player1Name, String player2Name, boolean player1First) {
         this.numberOfPencils = numberOfPencils;
@@ -20,23 +20,23 @@ public class Game {
 
     public void play() {
         String currentPlayer = player1First ? player1Name : player2Name;
-
         while (numberOfPencils > 0) {
-            int pencilsTaken = 0;
+            int pencilsTaken;
             System.out.println("|".repeat(numberOfPencils) + "\n" + currentPlayer + "'s turn!");
-            while (true) {
-                if (currentPlayer.equals("LAST_PENCIL_BOT")) {
-                    pencilsTaken = doBotTurn(numberOfPencils);
-                    System.out.println(pencilsTaken);
-                    break;
-                }
-                pencilsTaken = doPlayerTurn(numberOfPencils);
-                break;
+
+            if (currentPlayer.equals("LAST_PENCIL_BOT")) {
+                pencilsTaken = doBotTurn(numberOfPencils);
+                System.out.println(pencilsTaken);
+            } else {
+                pencilsTaken = doPlayerTurn();
             }
+
             numberOfPencils -= pencilsTaken;
             currentPlayer = currentPlayer.equals(player2Name) ? player1Name : player2Name;
         }
-        System.out.println(currentPlayer + " won!\n");
+        announceWinner(currentPlayer);
+
+        startAgain();
     }
 
     public int doBotTurn(int numberOfPencils) {
@@ -53,23 +53,23 @@ public class Game {
         return 0;
     }
 
-    public int doPlayerTurn(int numberOfPencils) {
+    public int doPlayerTurn() {
         int pencilsTaken = 0;
         while (pencilsTaken == 0) {
             String userInput = scanner.nextLine();
-            if (isValidInput(userInput)) {
+            if (checkInput(userInput)) {
                 pencilsTaken = Integer.parseInt(userInput);
             }
         }
         return pencilsTaken;
     }
 
-    public boolean isValidInput(String input) {
+    public boolean checkInput(String input) {
         String numbers = "0123456789";
-        int pencilsTaken = 0;
+        int pencilsTaken;
         char[] userInputCharacters = input.toCharArray();
-        for (int i = 0; i < userInputCharacters.length; i++) {
-            if (!numbers.contains(String.valueOf(userInputCharacters[i]))) {
+        for (char userInputCharacter : userInputCharacters) {
+            if (!numbers.contains(String.valueOf(userInputCharacter))) {
                 System.out.println("Possible values: '1', '2' or '3'");
                 return false;
             }
@@ -84,6 +84,16 @@ public class Game {
             return false;
         }
         return true;
+    }
+
+    public void announceWinner(String winnerName) {
+        System.out.println(winnerName + " won!\n");
+    }
+
+    public void startAgain() {
+        UserInterface ui = new UserInterface();
+        Game game = ui.startGame();
+        game.play();
     }
 }
 

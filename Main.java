@@ -1,12 +1,9 @@
 public class Main {
     public static void main(String[] args) {
         printWelcomeMessage();
-        while (true) {
-            UserInterface ui = new UserInterface();
-            Game game = ui.startGame();
-            game.play();
-        }
-
+        UserInterface ui = new UserInterface();
+        Game game = ui.startGame();
+        game.play();
     }
 
     public static void printWelcomeMessage() {
